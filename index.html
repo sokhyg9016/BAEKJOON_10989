@@ -1,0 +1,357 @@
+﻿<HTML>
+<HEAD>
+    <META NAME="GENERATOR" Content="Microsoft Visual Studio">
+    <TITLE>BAEKJOON - 10989</TITLE>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR|Noto+Serif+KR&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 10px;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        p, ul, li {
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        pre {
+            font-family: Consolas;
+        }
+
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        /* Pretty printing styles. Used with prettify.js. */
+        /* Vim sunburst theme by David Leibovic */
+
+        pre .str, code .str {
+            color: #65B042;
+        }
+        /* string  - green */
+        pre .kwd, code .kwd {
+            color: #E28964;
+        }
+        /* keyword - dark pink */
+        pre .com, code .com {
+            color: #AEAEAE;
+            font-style: italic;
+        }
+        /* comment - gray */
+        pre .typ, code .typ {
+            color: #89bdff;
+        }
+        /* type - light blue */
+        pre .lit, code .lit {
+            color: #3387CC;
+        }
+        /* literal - blue */
+        pre .pun, code .pun {
+            color: #fff;
+        }
+        /* punctuation - white */
+        pre .pln, code .pln {
+            color: #fff;
+        }
+        /* plaintext - white */
+        pre .tag, code .tag {
+            color: #89bdff;
+        }
+        /* html/xml tag    - light blue */
+        pre .atn, code .atn {
+            color: #bdb76b;
+        }
+        /* html/xml attribute name  - khaki */
+        pre .atv, code .atv {
+            color: #65B042;
+        }
+        /* html/xml attribute value - green */
+        pre .dec, code .dec {
+            color: #3387CC;
+        }
+        /* decimal - blue */
+
+        pre.prettyprint, code.prettyprint {
+            background-color: #000;
+            border-radius: 8px;
+        }
+
+        pre.prettyprint {
+            width: 95%;
+            margin: 1em auto;
+            padding: 1em;
+            white-space: pre-wrap;
+        }
+
+
+        /* Specify class=linenums on a pre to get line numbering */
+        ol.linenums {
+            margin-top: 0;
+            margin-bottom: 0;
+            color: #AEAEAE;
+        }
+        /* IE indents via margin-left */
+        li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
+            list-style-type: none
+        }
+        /* Alternate shading for lines */
+        li.L1, li.L3, li.L5, li.L7, li.L9 {
+        }
+
+        @media print {
+            pre .str, code .str {
+                color: #060;
+            }
+
+            pre .kwd, code .kwd {
+                color: #006;
+                font-weight: bold;
+            }
+
+            pre .com, code .com {
+                color: #600;
+                font-style: italic;
+            }
+
+            pre .typ, code .typ {
+                color: #404;
+                font-weight: bold;
+            }
+
+            pre .lit, code .lit {
+                color: #044;
+            }
+
+            pre .pun, code .pun {
+                color: #440;
+            }
+
+            pre .pln, code .pln {
+                color: #000;
+            }
+
+            pre .tag, code .tag {
+                color: #006;
+                font-weight: bold;
+            }
+
+            pre .atn, code .atn {
+                color: #404;
+            }
+
+            pre .atv, code .atv {
+                color: #060;
+            }
+        }
+    </style>
+</HEAD>
+<BODY>
+    <h1>
+        <a href="https://sokhyg9016.github.io/">&#9757;&#127995;</a>&nbsp;&nbsp;&nbsp;BAEKJOON::10989 Solution
+    </h1>
+        <hr />
+        <h4>&#128073; Test data</h4>
+
+<pre class="prettyprint">
+        <code>
+    int CNT_INFO[150]; // count of numbers
+    char buf[30];      // store & output area
+    </code>
+</pre>
+
+    <h3>&#128073; buf[30]</h3>
+
+        <pre class="prettyprint">
+        <code>
+    +-----+
+    | 10  |   Size
+    +-----+----------+
+    | 10  |          |
+    +-----+          |
+    | 20  |          |
+    +-----+          |
+    | 30  |          |
+    +-----+          |
+    | 40  |          |
+    +-----+          -
+    | 100 |          D
+    +-----+          A
+    | 100 |          T
+    +-----+          A
+    | 100 |          -
+    +-----+          |
+    | 120 |          |
+    +-----+          |
+    | 130 |          |
+    +-----+          |
+    | 140 |          |
+    +-----+----------+
+</code>
+    </pre>
+        <p>&nbsp;&nbsp;<font>(10 * 4 +  4 = 44) -> if all data is stored once.</font></p>
+        <br />
+
+        <h3>&#128073; If-statement</h3>
+        <pre class="prettyprint">
+        <code>
+    if (buf + sz - p - 1 < j)
+    {
+        fwrite(buf, sizeof(char), p - buf, stdout);
+        p = buf;
+        goto check_1;
+    }
+        </code>
+    </pre>
+
+        <ul>
+            <li>만약 현재의 저장소 `buf`보다 더 많은 입력을 했다면 이 경우 예외 처리가 필요하다.</li>
+            <li>따라서 현재까지 정렬된 저장소를 현재 문제가 발생된 부분을 제외하고 출력한다. </li>
+            <li>또한 현재 포인터 p를 다시 저장소의 처음 주소로 이동한다. </li>
+        </ul>
+        <pre class="prettyprint">
+        <code>
+    check_1:
+    memcpy(p, STR_INFO[num], j);
+    s = p;
+    p += j;
+    CNT_INFO[num]--;    
+    f = 1;
+        </code>
+    </pre>
+
+        <ul>
+            <li>이때 현재 값`STR_INFO[num]`을 처음 주소로 옮긴다.</li>
+            <li>그리고 현재 포인터 p를 다음 주소로 옮긴다.</li>
+        </ul>
+
+        <br />
+
+        <h3>&#128073; Source file</h3>
+
+        <pre class="prettyprint">
+        <code>
+#include &lt;stdio.h&gt;
+#include &lt;memory.h&gt;
+#include "dataset.h" // include user-defind memory
+
+#define _BUFSIZ 1020102
+#define _LENG 10001 // 1 ~ 10,000
+
+int CNT_INFO[_LENG]; // count of numbers
+char buf[_BUFSIZ]; //store & output area
+int C;
+
+/*
+if 1, 2, 3, .. 10 --> '10\n' -> 3*10 + 3 = 33 ([data] + [size])
+if 1, .... 100 --> '100\n' -> 4*100 + 4 = 404
+
+an = (자릿수 + 1)*n + (자릿수 + 1)
+[n = 10000] --> an = 6*10000 + 6 =>  [60006 * N] = 120012‬ , 240024, 1200120‬, 1140114‬, 1020098‬(Best), 960096‬, 900090, ...
+*/
+
+int main(void)
+{
+    char* p;
+    int sz, remain;
+    int num;
+
+    fread(buf, sizeof(char), _BUFSIZ, stdin);
+    p = buf;
+    sz = sizeof(buf);
+
+    // Read size
+    for (C = 0; *p++ >= 48;)
+    {
+        C = C * 10 + (p[-1] - 48);
+    }
+
+    // store the values in array
+    while (C--)
+    {
+        remain = buf + sz - p;
+        if (remain < 6)
+        {
+            memcpy(buf, p, remain);
+            fread(buf + remain, sizeof(char), sz - remain, stdin);
+            p = buf;
+        }
+        for (num = 0; *p++ >= 48;)
+        {
+            num = num * 10 + (p[-1] - 48);
+        }
+        CNT_INFO[num]++;
+    }
+        p = buf;
+
+    for (num = 1; num < _LENG; num++)
+    {
+        int f, c, k, j; //f: 현재 남은 카운트
+        char* s;
+
+        // To get the length of number (j)
+        for (k = num, j = 1; k > 0; k /= 10, j++);
+
+        if (CNT_INFO[num])
+        {
+            //if current remain size is not enough to store the current number [만약 입력된 데이터가 저장된 데이터보다 크다면
+            if (buf + sz - p - 1 < j)
+            {
+                fwrite(buf, sizeof(char), p - buf, stdout);
+                p = buf;
+                goto check_1;
+            }
+
+        check_1:
+            memcpy(p, STR_INFO[num], j);
+            s = p;
+            p += j;
+            CNT_INFO[num]--;
+            f = 1;
+
+            // If still remain the count of number (it means, number > 1).
+            while (CNT_INFO[num] > 0)
+            {
+                if (CNT_INFO[num] >= f)
+                {
+                    c = f;
+                }
+                else
+                {
+                    c = CNT_INFO[num];
+                }
+
+                // if current remain size is not enough to store current sample numbers.
+                // then print current output memory except current addr's value and p point &buf[0]
+                // goto check 1 to store current value.
+                if (buf + sz - p - 1 < j * c)
+                {
+                    fwrite(buf, sizeof(char), p - buf, stdout);
+                    p = buf;
+                    goto check_1;
+                }
+                memcpy(p, s, j * c);
+                p += j * c;
+                CNT_INFO[num] -= c;
+                f += c;
+            }
+        }
+    }
+    fwrite(buf, sizeof(char), p - buf, stdout);
+    return 0;
+}
+        </code>
+</pre>
+
+
+        <h3>&#128073; Reference</h3>
+        <ul>
+            <li>
+                <a href="https://www.acmicpc.net/source/17694757">[My source #1]</a>
+            </li>
+            <li>
+                <a href="https://www.acmicpc.net/source/17694817">[My source #2]</a>
+            </li>
+        </ul>
+        <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+</BODY>
+</HTML>
